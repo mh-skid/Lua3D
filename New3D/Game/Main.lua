@@ -127,7 +127,8 @@ function love.draw()
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
     local pos = _3D.project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
- 
+
+    --//TODO: make less ass
 end
  
  

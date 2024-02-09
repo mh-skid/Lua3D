@@ -28,7 +28,7 @@ local INP_data = {}
 function love.keypressed( key, scancode, isrepeat )
     --//scancode = string of input
 
-    if INP_data[string.upper(scancode)]==nil then
+    if not (INP_data[string.upper(scancode)]) then
         table.insert(INP_data,string.upper(scancode))
     end
     INP_data[string.upper(scancode)] = true
@@ -40,7 +40,7 @@ function love.keyreleased( key, scancode, isrepeat )
 end
 
  
-function CalcVectors(x,y,dir)
+function math.CalcVectors(x,y,dir)
     return {((x*math.cos(dir))+(y*math.sin(dir))), ((y*math.cos(dir))-(x*math.sin(dir)))}
 end
 function getAngles(x,y,z,xdir,ydir,zdir)

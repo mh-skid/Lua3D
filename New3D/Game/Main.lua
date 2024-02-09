@@ -7,8 +7,6 @@ end
 local width = love.graphics.getWidth( )
 local height = love.graphics.getHeight( )
  
-
- 
 local Cam = {
     X = 5;
     Y = 0;
@@ -39,31 +37,33 @@ function love.keyreleased( key, scancode, isrepeat )
     INP_data[string.upper(scancode)] = false
 end
 
- 
-function math.CalcVectors(x,y,dir)
+local _3D={}
+_3D.__index = _3D
+
+function _3D.CalcVectors(x,y,dir)
     return {((x*math.cos(dir))+(y*math.sin(dir))), ((y*math.cos(dir))-(x*math.sin(dir)))}
 end
-function getAngles(x,y,z,xdir,ydir,zdir)
+function _3D.getAngles(x,y,z,xdir,ydir,zdir)
     local x3,y3,z3 , v1,v2,v3 = 0
    
-    local v1 = CalcVectors(x,y,0-zdir)
+    local v1 = _3D.CalcVectors(x,y,0-zdir)
     x3 = v1[1]
     y3 = v1[2]
-    local v2 = CalcVectors(x3,z,0-ydir)
+    local v2 = _3D.CalcVectors(x3,z,0-ydir)
     x3 = v2[1]
     z3 = v2[2]
-    local v3 = CalcVectors(z3,y3,xdir)
+    local v3 = _3D.CalcVectors(z3,y3,xdir)
     z3 = v3[1]
     y3 = v3[2]
  
     return {x3,y3,z3}
 end
-function project(rX,rY,rZ,xdir,ydir,zdir,dist)
+function _3D.project(rX,rY,rZ,xdir,ydir,zdir,dist)
     local X = rX + Cam.X
     local Y = rY + Cam.Y
     local Z = rZ + Cam.Z
  
-    local finlv1 = getAngles(X,Y,Z,xdir,ydir,zdir)
+    local finlv1 = _3D.getAngles(X,Y,Z,xdir,ydir,zdir)
     local m1 = 240 / ((finlv1[3] + dist) * math.tan(Cam.FOV/2))
     local RRx = finlv1[1]*m1
     local RRy = finlv1[2]*m1
@@ -119,13 +119,13 @@ function love.draw()
     love.graphics.setColor(255,255,255,1)
     love.graphics.print("FPS: "..math.floor (1/deltaTime))
  
-    local pos = project(0,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    local pos = _3D.project(0,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = project(0,1,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    local pos = _3D.project(0,1,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = project(1,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    local pos = _3D.project(1,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    local pos = _3D.project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
     love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
  
 end

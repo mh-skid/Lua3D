@@ -9,8 +9,9 @@ local height = love.graphics.getHeight( )
  
 --//shit fuck library
 obj = require("objdata")
+Monkey = obj.load("mnky.obj")
 
-
+--//line 115~ish for data xplanation
 
 local Cam = {
     X = 5;
@@ -106,11 +107,27 @@ end
 function DrawPoint(data,c)
     love.graphics.setColor(c[1]/255,c[2]/255,c[3]/255,1)
     pcall(function()
-        love.graphics.rectangle("fill",(data[1]+(width/2))-2,(data[2]+(height/2))-2,4,4) --//no way love2d has "fill" as an arg like the engine isnt coded by gay twink femboys
+        love.graphics.rectangle("fill",(data[1]+(width/2))-1,(data[2]+(height/2))-1,1,1) --//no way love2d has "fill" as an arg like the engine isnt coded by gay twink femboys
     end)                                                                                --// TODO: Write a graphics lib that isnt outright homosexual in every way
 end
  
  
+--[[
+    return data example for the wavefront loader
+
+	local obj = {
+		v	= {}, -- List of vertices - x, y, z, [w]=1.0
+		vt	= {}, -- Texture coordinates - u, v, [w]=0
+		vn	= {}, -- Normals - x, y, z
+		vp	= {}, -- Parameter space vertices - u, [v], [w]
+		f	= {}, -- Faces
+	}
+
+
+]]
+
+
+
 function love.draw()
     width = love.graphics.getWidth( )
     height = love.graphics.getHeight( )
@@ -119,20 +136,15 @@ function love.draw()
     love.graphics.print("FPS: "..math.floor (1/deltaTime))
     ]]
 
-
     local Color = {255,50,50}
-    local pos = _3D.project(0,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    DrawPoint(pos,Color)
 
-    local pos = _3D.project(0,1,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    DrawPoint(pos,Color)
+    for i,v in pairs(Monkey) do
+        local pos = _3D.project(v.x,v.y,v.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+        DrawPoint(pos,Color)
+    end
 
-    local pos = _3D.project(1,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    DrawPoint(pos,Color)
-
-    local pos = _3D.project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    DrawPoint(pos,Color)
-    --//TODO: make less ass
+    --//TODO: --make less ass--
+    --//it has been made less ass 👍
 end
  
  

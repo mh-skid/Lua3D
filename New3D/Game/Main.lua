@@ -93,20 +93,9 @@ function love.update(dt)
     Cam.Z = Cam.Z + (((math.cos(-Cam.YDIR)*dt) * (INP_data.W and 1 or 0) + (math.sin(-Cam.YDIR)*dt) * (INP_data.D and 1 or 0)) - ((math.sin(-Cam.YDIR)*dt) * (INP_data.A and 1 or 0) + (math.cos(-Cam.YDIR)*dt) * (INP_data.S and 1 or 0))) * Cam.SPEED
     Cam.Y = Cam.Y - ((dt) * Cam.SPEED) * ((INP_data.E and 1 or 0)+(INP_data.Q and -1 or 0))
 
+    Cam.YDIR = Cam.YDIR + (((100/180)*math.pi)*(dt) * (INP_data.RIGHT and 1 or 0))  - ((100/180)*math.pi*(dt) * (INP_data.LEFT and 1 or 0))
+    Cam.XDIR = Cam.XDIR + ((100/180)*math.pi*(dt) * (INP_data.UP and -1 or 0)) + ((100/180)*math.pi*(dt) * (INP_data.DOWN and 1 or 0))
 
-    if INP_data.RIGHT then
-        Cam.YDIR = Cam.YDIR + ((100/180)*math.pi)*(dt)
-    end
-    if INP_data.LEFT then
-        Cam.YDIR = Cam.YDIR - (100/180)*math.pi*(dt)
-    end
-   
-    if INP_data.UP then
-        Cam.XDIR = Cam.XDIR - (100/180)*math.pi*(dt)
-    end
-    if INP_data.DOWN then
-        Cam.XDIR = Cam.XDIR + (100/180)*math.pi*(dt)
-    end
  
 end
  

@@ -7,6 +7,11 @@ end
 local width = love.graphics.getWidth( )
 local height = love.graphics.getHeight( )
  
+--//shit fuck library
+obj = require("OBJ_LODER.lua")
+
+
+
 local Cam = {
     X = 5;
     Y = 0;
@@ -36,6 +41,7 @@ end
 function love.keyreleased( key, scancode, isrepeat )
     INP_data[string.upper(scancode)] = false
 end
+--//less gay inputs
 
 local _3D={}
 _3D.__index = _3D
@@ -65,15 +71,14 @@ function _3D.project(rX,rY,rZ,xdir,ydir,zdir,dist)
  
     local finlv1 = _3D.getAngles(X,Y,Z,xdir,ydir,zdir)
     local m1 = 240 / ((finlv1[3] + dist) * math.tan(Cam.FOV/2))
-    local RRx = finlv1[1]*m1
-    local RRy = finlv1[2]*m1
-   
+    
     if (m1 > 0) then
         return nil --//TODO: Find a way to get all poly points w/out just pcalling it
+                   --// ok 7:05 pm idk if pcalling is efficient but READ INTO IT SOON ENOUGH
     end
 
-    local Table = {RRx,RRy,m1}
-    return Table
+
+    return {finlv1[1]*m1,finlv1[2]*m1,true}
  
 end
 
@@ -95,28 +100,38 @@ function love.update(dt)
 
     Cam.YDIR = Cam.YDIR + (((100/180)*math.pi)*(dt) * (INP_data.RIGHT and 1 or 0))  - ((100/180)*math.pi*(dt) * (INP_data.LEFT and 1 or 0))
     Cam.XDIR = Cam.XDIR + ((100/180)*math.pi*(dt) * (INP_data.UP and -1 or 0)) + ((100/180)*math.pi*(dt) * (INP_data.DOWN and 1 or 0))
-
  
+end
+
+function DrawPoint(data,c)
+    love.graphics.setColor(c[1]/255,c[2]/255,c[3]/255,1)
+    pcall(function()
+        love.graphics.rectangle("fill",(data[1]+(width/2))-2,(data[2]+(height/2))-2,4,4) --//no way love2d has "fill" as an arg like the engine isnt coded by gay twink femboys
+    end)                                                                                --// TODO: Write a graphics lib that isnt outright homosexual in every way
 end
  
  
 function love.draw()
     width = love.graphics.getWidth( )
     height = love.graphics.getHeight( )
- 
- 
+    --[[
     love.graphics.setColor(255,255,255,1)
     love.graphics.print("FPS: "..math.floor (1/deltaTime))
- 
-    local pos = _3D.project(0,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = _3D.project(0,1,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = _3D.project(1,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
-    local pos = _3D.project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-    love.graphics.rectangle("fill",pos[1]+(width/2),pos[2]+(height/2),5,5)
+    ]]
 
+
+    local Color = {255,50,50}
+    local pos = _3D.project(0,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    DrawPoint(pos,Color)
+
+    local pos = _3D.project(0,1,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    DrawPoint(pos,Color)
+
+    local pos = _3D.project(1,0,0,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    DrawPoint(pos,Color)
+
+    local pos = _3D.project(0,0,1,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+    DrawPoint(pos,Color)
     --//TODO: make less ass
 end
  

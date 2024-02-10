@@ -8,7 +8,7 @@ local width = love.graphics.getWidth( )
 local height = love.graphics.getHeight( )
  
 --//shit fuck library
-obj = require("OBJ_LODER.lua")
+obj = require("objdata")
 
 
 

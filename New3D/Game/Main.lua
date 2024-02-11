@@ -8,12 +8,12 @@ local width = love.graphics.getWidth( )
 local height = love.graphics.getHeight( )
  
 --//shit fuck library
-obj = require("objdata")
-Monkey = obj.load("mnky.obj")
+local  obj =  require("OBJLoader")
+local _3D  =  require("VectorMath")
 
---//line 115~ish for data xplanation
+Monkey = obj.load("Monkey.obj")
 
-local Cam = {
+_G.Cam = {
     X = 5;
     Y = 0;
     Z = 0;
@@ -42,46 +42,9 @@ end
 function love.keyreleased( key, scancode, isrepeat )
     INP_data[string.upper(scancode)] = false
 end
---//less gay inputs
-
-local _3D={}
-_3D.__index = _3D
-
-function _3D.CalcVectors(x,y,dir)
-    return {((x*math.cos(dir))+(y*math.sin(dir))), ((y*math.cos(dir))-(x*math.sin(dir)))}
-end
-function _3D.getAngles(x,y,z,xdir,ydir,zdir)
-    local x3,y3,z3 , v1,v2,v3 = 0
-   
-    local v1 = _3D.CalcVectors(x,y,0-zdir)
-    x3 = v1[1]
-    y3 = v1[2]
-    local v2 = _3D.CalcVectors(x3,z,0-ydir)
-    x3 = v2[1]
-    z3 = v2[2]
-    local v3 = _3D.CalcVectors(z3,y3,xdir)
-    z3 = v3[1]
-    y3 = v3[2]
- 
-    return {x3,y3,z3}
-end
-function _3D.project(rX,rY,rZ,xdir,ydir,zdir,dist)
-    local X = rX + Cam.X
-    local Y = rY + Cam.Y
-    local Z = rZ + Cam.Z
- 
-    local finlv1 = _3D.getAngles(X,Y,Z,xdir,ydir,zdir)
-    local m1 = 240 / ((finlv1[3] + dist) * math.tan(Cam.FOV/2))
-    
-    if (m1 > 0) then
-        return nil --//TODO: Find a way to get all poly points w/out just pcalling it
-                   --// ok 7:05 pm idk if pcalling is efficient but READ INTO IT SOON ENOUGH
-    end
 
 
-    return {finlv1[1]*m1,finlv1[2]*m1,true}
- 
-end
+
 
 --[[
 debug.setmetatable(true, {__len = function (value) return value and 1 or 0 end})
@@ -106,26 +69,10 @@ end
 
 function DrawPoint(data,c)
     love.graphics.setColor(c[1]/255,c[2]/255,c[3]/255,1)
-    pcall(function()
+   -- pcall(function()
         love.graphics.rectangle("fill",(data[1]+(width/2))-1,(data[2]+(height/2))-1,1,1) --//no way love2d has "fill" as an arg like the engine isnt coded by gay twink femboys
-    end)                                                                                --// TODO: Write a graphics lib that isnt outright homosexual in every way
+    --end)                                                                                --// TODO: Write a graphics lib that isnt outright homosexual in every way
 end
- 
- 
---[[
-    return data example for the wavefront loader
-
-	local obj = {
-		v	= {}, -- List of vertices - x, y, z, [w]=1.0
-		vt	= {}, -- Texture coordinates - u, v, [w]=0
-		vn	= {}, -- Normals - x, y, z
-		vp	= {}, -- Parameter space vertices - u, [v], [w]
-		f	= {}, -- Faces
-	}
-
-
-]]
-
 
 
 function love.draw()

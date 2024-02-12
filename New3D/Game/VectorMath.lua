@@ -28,8 +28,8 @@ function _3D.project(rX,rY,rZ,xdir,ydir,zdir,dist)
     
     if (m1 > 0) then
         return {
-            (math.abs(finlv1[1])/finlv1[1]) * width,
-            (math.abs(finlv1[2])/finlv1[2]) * height,
+            -(math.abs(finlv1[1])/finlv1[1]) * width,
+            -(math.abs(finlv1[2])/finlv1[2]) * height,
             false
         }
 

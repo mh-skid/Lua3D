@@ -4,12 +4,14 @@ function love.load()
     love.window.setMode(1400, 800, {resizable=true, vsync=0, minwidth=400, minheight=300})
 end
  
-local width = love.graphics.getWidth( )
-local height = love.graphics.getHeight( )
+_G.width = love.graphics.getWidth( )
+_G.height = love.graphics.getHeight( )
  
 --//shit fuck library
 local  obj =  require("OBJLoader")
 local _3D  =  require("VectorMath")
+local Draw =  require("Draw")
+
 
 Monkey = obj.load("Monkey.obj")
 
@@ -44,14 +46,6 @@ function love.keyreleased( key, scancode, isrepeat )
 end
 
 
-
-
---[[
-debug.setmetatable(true, {__len = function (value) return value and 1 or 0 end})
-ok like WHAT the ACTUAL FUCK IS THAT??? WHY??? '__len' SHOULDNT BE USED YOU FUCKING IDIOT
-
-]]
-
 --//DRAW GRAPHICS
  
 function love.update(dt)
@@ -67,31 +61,36 @@ function love.update(dt)
  
 end
 
-function DrawPoint(data,c)
-    love.graphics.setColor(c[1]/255,c[2]/255,c[3]/255,1)
-   -- pcall(function()
-        love.graphics.rectangle("fill",(data[1]+(width/2))-1,(data[2]+(height/2))-1,1,1) --//no way love2d has "fill" as an arg like the engine isnt coded by gay twink femboys
-    --end)                                                                                --// TODO: Write a graphics lib that isnt outright homosexual in every way
-end
 
 
 function love.draw()
-    width = love.graphics.getWidth( )
-    height = love.graphics.getHeight( )
+    _G.width = love.graphics.getWidth( )
+    _G.height = love.graphics.getHeight( )
     --[[
     love.graphics.setColor(255,255,255,1)
     love.graphics.print("FPS: "..math.floor (1/deltaTime))
     ]]
 
-    local Color = {255,50,50}
+    local Color = {255,255,255}
 
+    --[[
     for i,v in pairs(Monkey) do
         local pos = _3D.project(v.x,v.y,v.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
         DrawPoint(pos,Color)
     end
+    ]]
 
-    --//TODO: --make less ass--
-    --//it has been made less ass 👍
+    for i = 1,#Monkey do
+        local v1 = Monkey[i]
+        local v2 = Monkey[i+1]
+
+        if v2 then
+            local pos = _3D.project(v1.x,v1.y,v1.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+            local pos2 = _3D.project(v2.x,v2.y,v2.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
+            
+            Draw.DrawLine({pos[1],pos[2],pos2[1],pos2[2]},Color)
+        end
+    end
 end
  
  

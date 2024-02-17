@@ -73,24 +73,12 @@ function love.draw()
 
     local Color = {255,255,255}
 
-    --[[
+
     for i,v in pairs(Monkey) do
         local pos = _3D.project(v.x,v.y,v.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-        DrawPoint(pos,Color)
+        Draw.DrawPoint(pos,Color)
     end
-    ]]
 
-    for i = 1,#Monkey do
-        local v1 = Monkey[i]
-        local v2 = Monkey[i+1]
-
-        if v2 then
-            local pos = _3D.project(v1.x,v1.y,v1.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-            local pos2 = _3D.project(v2.x,v2.y,v2.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
-            
-            Draw.DrawLine({pos[1],pos[2],pos2[1],pos2[2]},Color)
-        end
-    end
 end
  
  

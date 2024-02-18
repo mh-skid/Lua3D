@@ -73,10 +73,18 @@ function love.draw()
 
     local Color = {255,255,255}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d333a061f24d0ad43955a7fc2dc63366113f6140
     for i,v in pairs(Monkey) do
         local pos = _3D.project(v.x,v.y,v.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
         Draw.DrawPoint(pos,Color)
     end
+<<<<<<< HEAD
+=======
+
+>>>>>>> d333a061f24d0ad43955a7fc2dc63366113f6140
 end
  
  

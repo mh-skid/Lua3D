@@ -38,9 +38,7 @@ function _3D.project(rX,rY,rZ,xdir,ydir,zdir,dist)
                 
     end
 
-
     return {finlv1[1]*m1,finlv1[2]*m1,true}
- 
 end
 
 return _3D

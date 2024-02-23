@@ -6,11 +6,15 @@ end
  
 _G.width = love.graphics.getWidth( )
 _G.height = love.graphics.getHeight( )
- 
---//shit fuck library
+_G.RunTime = 0;
+
+--//shit fuck libraries
+
 local  obj =  require("OBJLoader")
-local _3D  =  require("VectorMath")
+local _3D  =  require("Projection")
 local Draw =  require("Draw")
+
+local Shitfuck = require("Waves")
 
 
 Monkey = obj.load("Monkey.obj")
@@ -50,7 +54,7 @@ end
  
 function love.update(dt)
     deltaTime = dt
-
+    _G.RunTime = _G.RunTime + dt
     --//Holy mother of fuck
     Cam.X = Cam.X + (((math.sin(Cam.YDIR)*dt) * (INP_data.W and 1 or 0) + (math.cos(Cam.YDIR)*dt) * (INP_data.D and 1 or 0)) - ((math.sin(Cam.YDIR)*dt) * (INP_data.S and 1 or 0)) - ((math.cos(Cam.YDIR)*dt) * (INP_data.A and 1 or 0))) * Cam.SPEED
     Cam.Z = Cam.Z + (((math.cos(-Cam.YDIR)*dt) * (INP_data.W and 1 or 0) + (math.sin(-Cam.YDIR)*dt) * (INP_data.D and 1 or 0)) - ((math.sin(-Cam.YDIR)*dt) * (INP_data.A and 1 or 0) + (math.cos(-Cam.YDIR)*dt) * (INP_data.S and 1 or 0))) * Cam.SPEED
@@ -60,6 +64,7 @@ function love.update(dt)
     Cam.XDIR = Cam.XDIR + ((100/180)*math.pi*(dt) * (INP_data.UP and -1 or 0)) + ((100/180)*math.pi*(dt) * (INP_data.DOWN and 1 or 0))
  
 end
+
 
 
 
@@ -73,18 +78,12 @@ function love.draw()
 
     local Color = {255,255,255}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d333a061f24d0ad43955a7fc2dc63366113f6140
     for i,v in pairs(Monkey) do
         local pos = _3D.project(v.x,v.y,v.z,Cam.XDIR,Cam.YDIR,Cam.ZDIR,0)
         Draw.DrawPoint(pos,Color)
     end
-<<<<<<< HEAD
-=======
 
->>>>>>> d333a061f24d0ad43955a7fc2dc63366113f6140
+    Shitfuck.doshit()
 end
  
  

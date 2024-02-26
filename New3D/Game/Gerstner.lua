@@ -42,7 +42,7 @@ function module.Calculate(Wave, GridP, RunTime, Ret)
 	local k = (math.pi/2)/wavelength
 	local c = math.sqrt(9.8/k)
 	local d = getUnit(Vectors.createV2(Wave.x, Wave.y))
-	local f = k*getDot(d,Vectors.createV2(GridP.x,GridP.z) - c * _G.RunTime)
+	local f = k*getDot(d,Vectors.createV2(GridP.x-(c * _G.RunTime),GridP.z-(c * _G.RunTime)))
 	--//This stupid fucking "local f = " line has literally made me want to paint the wall with my brains
 	
 	local a = steepness/k
